@@ -1,10 +1,12 @@
 #include <Windows.h>
 
 #include "System/Window.h"
+#include "Graphics/Context.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
 	Window window("Direct3D", 1280, 720, hInstance, nCmdShow);
+	Context context(window);
 
 	MSG msg = { 0 };
 
