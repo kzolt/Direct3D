@@ -2,6 +2,7 @@
 
 #include "System/Window.h"
 #include "Graphics/Context.h"
+#include "Graphics/Shader.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {

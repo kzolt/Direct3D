@@ -144,6 +144,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Graphics\Context.h" />
+    <ClInclude Include="src\Graphics\Shader.h" />
     <ClInclude Include="src\System\Window.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

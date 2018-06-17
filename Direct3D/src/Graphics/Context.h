@@ -19,10 +19,8 @@ public:
 	Context(const Window& window);
 	~Context();
 
-	void Present() const;
-
-	// TODO: Remove Later
 	void Clear() const;
+	void Present() const;
 
 private:
 	void InitD3D(const Window& window);
