@@ -1,8 +1,8 @@
 #include "Shader.h"
 
-Shader::Shader(const std::wstring& filepath, const Context& context)
+Shader::Shader(const Context& context)
 {
-	CompileShaders(filepath);
+	CompileShaders();
 	InitPipeline(context);
 }
 
@@ -14,11 +14,11 @@ Shader::~Shader()
 	m_Ps->Release();
 }
 
-void Shader::CompileShaders(const std::wstring& filepath)
+void Shader::CompileShaders()
 {
 	// Compile the shaders
-	D3DCompileFromFile(filepath.data(), 0, 0, "VShader", "vs_4_0", 0, 0, 0, &m_Vs);
-	D3DCompileFromFile(filepath.data(), 0, 0, "PShader", "ps_4_0", 0, 0, 0, &m_Ps);
+	D3DCompileFromFile(L"res/shaders/shader.shader", 0, 0, "VShader", "vs_4_0", 0, 0, &m_Vs, 0);
+	D3DCompileFromFile(L"res/shaders/shader.shader", 0, 0, "PShader", "ps_4_0", 0, 0, &m_Ps, 0);
 }
 
 void Shader::InitPipeline(const Context& context)
