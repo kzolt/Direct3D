@@ -22,7 +22,11 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 				break;
 		}
 
+		context.Clear();
+
 		// Render here
+
+		context.Present();
 	}
 }
 

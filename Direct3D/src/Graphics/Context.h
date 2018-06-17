@@ -12,11 +12,19 @@ public:
 	ID3D11DeviceContext* devcon;
 
 private:
+	ID3D11RenderTargetView* m_BackBuffer;
+	D3D11_VIEWPORT m_ScreenViewport;
 
 public:
 	Context(const Window& window);
 	~Context();
 
+	void Present() const;
+
+	// TODO: Remove Later
+	void Clear() const;
+
 private:
 	void InitD3D(const Window& window);
+
 };
