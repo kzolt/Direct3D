@@ -1,10 +1,11 @@
 #pragma once
 
 #include <d3d11.h>
+#include "BufferLayout.h"
 #include "../Context.h"
 #include "../Shader.h"
 
-struct VERTEX
+struct VertexData
 {
 	float x, y, z;
 	float r, g, b, a;
@@ -19,17 +20,17 @@ private:
 	ID3D11InputLayout* m_InputLayout;
 
 	const Context& m_Context;
-	const Shader& m_Shader;
 
 	unsigned int m_Size;
 
 public:
-	VertexBuffer(const Context& context, const Shader& shader);
+	VertexBuffer(const Context& context);
 	~VertexBuffer();
 
 	void Resize(unsigned int size);
 
-	void SetData(VERTEX data[], unsigned int size);
+	void SetData(VertexData data[], unsigned int size);
+	void SetLayout(const BufferLayout&, const Shader& shader);
 
 	void Bind() const;
 	void Unbind() const;

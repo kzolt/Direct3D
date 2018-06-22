@@ -11,15 +11,20 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	Context context(window);
 	Shader shader(context);
 
-	VERTEX OurVertices[] =
+	VertexData OurVertices[] =
 	{
 		{  0.0f,   0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f },
 		{  0.45f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f },
 		{ -0.45f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f }
 	};
 
-	VertexBuffer vb(context, shader);
-	vb.SetData(OurVertices, sizeof(VERTEX) * 3);
+	VertexBuffer vb(context);
+	BufferLayout layout;
+	layout.Push<float>("POSITION", 3);
+	layout.Push<float>("COLOR", 4);
+
+	vb.SetData(OurVertices, sizeof(VertexData) * 3);
+	vb.SetLayout(layout, shader);
 
 	// Main Loop
 

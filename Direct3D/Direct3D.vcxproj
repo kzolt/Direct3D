@@ -145,6 +145,7 @@
     <ClCompile Include="src\System\Window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Graphics\Buffers\BufferLayout.h" />
     <ClInclude Include="src\Graphics\Buffers\VertexBuffer.h" />
     <ClInclude Include="src\Graphics\Context.h" />
     <ClInclude Include="src\Graphics\Shader.h" />
