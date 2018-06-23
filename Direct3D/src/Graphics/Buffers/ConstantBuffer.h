@@ -1,6 +1,7 @@
 #pragma once
 
 #include <d3d11.h>
+#include <DirectXMath.h>
 #include "../Context.h"
 
 struct CBufferPerFrame
@@ -18,12 +19,13 @@ private:
 	const Context& m_Context;
 
 public:
-	ConstantBuffer(const Context& context);
+	ConstantBuffer(const Context& context, unsigned int size);
 	~ConstantBuffer();
 
 	void Bind() const;
 	void Unbind() const;
 
 	void UpdateBuffer(const CBufferPerFrame& colorMod);
+	void UpdateBuffer(const DirectX::XMMATRIX& matrix);
 
 };

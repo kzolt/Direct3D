@@ -52,8 +52,8 @@ void Context::InitD3D(const Window& window)
 
 	m_ScreenViewport.TopLeftX = 0;
 	m_ScreenViewport.TopLeftY = 0;
-	m_ScreenViewport.Width = window.GetWidth();
-	m_ScreenViewport.Height = window.GetHeight();
+	m_ScreenViewport.Width = (float)window.GetWidth();
+	m_ScreenViewport.Height = (float)window.GetHeight();
 
 	devcon->RSSetViewports(1, &m_ScreenViewport);
 }

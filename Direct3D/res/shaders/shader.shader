@@ -1,4 +1,9 @@
-cbuffer ConstantBuffer
+cbuffer PerVertex
+{
+	float4x4 Matrix;
+};
+
+cbuffer PerFrame
 {
 	float4 ColorMod;
 	float3 Offset;
@@ -14,13 +19,8 @@ VOut VShader(float4 position : POSITION, float4 color : COLOR)
 {
 	VOut output;
 
-	output.position = position;
-	output.position.x += Offset.x;
-	output.position.y += Offset.y;
-	output.position.xy *= Offset.z;
-
+	output.position = mul(Matrix, position);
 	output.color = color;
-	output.color *= ColorMod;
 
 	return output;
 }

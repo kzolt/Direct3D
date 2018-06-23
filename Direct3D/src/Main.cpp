@@ -1,10 +1,15 @@
 #include <Windows.h>
+#include <DirectXMath.h>
+#include <DirectXPackedVector.h>
+#include <DirectXMathMatrix.inl>
 
 #include "System/Window.h"
 #include "Graphics/Context.h"
 #include "Graphics/Shader.h"
 #include "Graphics/Buffers/VertexBuffer.h"
 #include "Graphics/Buffers/ConstantBuffer.h"
+
+using namespace DirectX;
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -27,13 +32,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	vb.SetData(OurVertices, sizeof(VertexData) * 3);
 	vb.SetLayout(layout, shader);
 
-	ConstantBuffer cbuffer(context);
+	ConstantBuffer cbuffer(context, 64);
 	cbuffer.Bind();
-
-	CBufferPerFrame perFrame = {
-		0.5f, 0.5f, 0.5f, 1.0f,  // Color
-		0.5f, 0.2f, 0.7f		 // Position
-	};
 
 	// Main Loop
 
@@ -53,11 +53,28 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		context.Clear();
 
+		static float time = 0.0f; 
+		time += 0.01f;
+
+		// World Matrix (Model)
+		XMMATRIX world = XMMatrixRotationY(time);
+
+		// View Matrix
+		XMMATRIX view = XMMatrixLookAtLH({ 1.5f, 0.5f, 1.5f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
+
+		// Projection Matrix
+		XMMATRIX proj = XMMatrixPerspectiveFovLH(XMConvertToRadians(45.0f), (float)window.GetWidth() / (float)window.GetHeight(), 1.0f, 100.0f);
+
+		// Model View Projection Matrix
+		XMMATRIX wvp = world * view * proj;
+
 		// Render here
+
+		// Update The Constant Buffer
+		cbuffer.UpdateBuffer(wvp);
 
 		// Bind
 		vb.Bind();
-		cbuffer.UpdateBuffer(perFrame);
 
 		// Draw
 		context.devcon->Draw(3, 0);
