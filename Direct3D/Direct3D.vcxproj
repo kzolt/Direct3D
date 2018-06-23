@@ -138,6 +138,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Graphics\Buffers\ConstantBuffer.cpp" />
     <ClCompile Include="src\Graphics\Buffers\VertexBuffer.cpp" />
     <ClCompile Include="src\Graphics\Context.cpp" />
     <ClCompile Include="src\Graphics\Shader.cpp" />
@@ -146,6 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Graphics\Buffers\BufferLayout.h" />
+    <ClInclude Include="src\Graphics\Buffers\ConstantBuffer.h" />
     <ClInclude Include="src\Graphics\Buffers\VertexBuffer.h" />
     <ClInclude Include="src\Graphics\Context.h" />
     <ClInclude Include="src\Graphics\Shader.h" />

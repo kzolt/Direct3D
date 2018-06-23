@@ -4,6 +4,7 @@
 #include "Graphics/Context.h"
 #include "Graphics/Shader.h"
 #include "Graphics/Buffers/VertexBuffer.h"
+#include "Graphics/Buffers/ConstantBuffer.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -25,6 +26,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	vb.SetData(OurVertices, sizeof(VertexData) * 3);
 	vb.SetLayout(layout, shader);
+
+	ConstantBuffer cbuffer(context);
+	cbuffer.Bind();
+
+	CBufferPerFrame perFrame = {
+		0.5f, 0.5f, 0.5f, 1.0f,  // Color
+		0.5f, 0.2f, 0.7f		 // Position
+	};
 
 	// Main Loop
 
@@ -48,6 +57,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		// Bind
 		vb.Bind();
+		cbuffer.UpdateBuffer(perFrame);
 
 		// Draw
 		context.devcon->Draw(3, 0);
