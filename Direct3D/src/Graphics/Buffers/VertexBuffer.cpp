@@ -23,7 +23,7 @@ void VertexBuffer::Resize(unsigned int size)
 	m_Context.dev->CreateBuffer(&m_BufferDesc, NULL, &m_BufferHandle);
 }
 
-void VertexBuffer::SetData(VertexData data[], unsigned int size)
+void VertexBuffer::SetData(const void* data, unsigned int size)
 {
 	if (m_Size < size)
 		Resize(size);

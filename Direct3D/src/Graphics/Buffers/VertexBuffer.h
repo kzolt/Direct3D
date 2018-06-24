@@ -29,7 +29,7 @@ public:
 
 	void Resize(unsigned int size);
 
-	void SetData(VertexData data[], unsigned int size);
+	void SetData(const void* data, unsigned int size);
 	void SetLayout(const BufferLayout&, const Shader& shader);
 
 	void Bind() const;

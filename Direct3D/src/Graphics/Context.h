@@ -14,6 +14,7 @@ public:
 private:
 	ID3D11RenderTargetView* m_BackBuffer;
 	D3D11_VIEWPORT m_ScreenViewport;
+	ID3D11DepthStencilView* m_DepthBuffer;
 
 public:
 	Context(const Window& window);
