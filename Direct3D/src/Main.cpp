@@ -18,7 +18,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	Context context(window);
 	Shader shader(context);
 
-	VertexData OurVertices[] =
+	VertexData Cube[] =
 	{
 		{ -1.0f,  1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f },
 		{  1.0f,  1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 1.0f },
@@ -30,7 +30,38 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		{  1.0f, -1.0f,  1.0f, 1.0f, 1.0f, 1.0f, 1.0f },
 	};
 
-	unsigned int OurIndices[] =
+	VertexData Pyramid[] =
+	{
+		// base
+		{ -1.0f, -1.0f,  1.0f, 0.0f, 1.0f, 0.0f, 1.0f },
+		{  1.0f, -1.0f,  1.0f, 0.0f, 0.0f, 1.0f, 1.0f },
+		{ -1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f },
+		{  1.0f, -1.0f, -1.0f, 0.0f, 1.0f, 1.0f, 1.0f },
+
+		// top
+		{  0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f },
+	};
+
+	VertexData ShipThing[] =
+	{
+		// fuselage
+		{  3.0f, 0.0f,  0.0f, 0.0f, 1.0f, 0.0f, 1.0f },
+		{  0.0f, 3.0f, -3.0f, 0.0f, 0.0f, 1.0f, 1.0f },
+		{  0.0f, 0.0f, 10.0f, 1.0f, 0.0f, 0.0f, 1.0f },
+		{ -3.0f, 0.0f,  0.0f, 0.0f, 1.0f, 1.0f, 1.0f },
+
+		// left gun
+		{ 3.2f, -1.0f, -3.0f, 0.0f, 0.0f, 1.0f, 1.0f },
+		{ 3.2f, -1.0f, 11.0f, 0.0f, 1.0f, 0.0f, 1.0f },
+		{ 2.0f,  1.0f,  2.0f, 0.0f, 1.0f, 1.0f, 1.0f },
+
+		// right gun
+		{ -3.2f, -1.0f, -3.0f, 0.0f, 0.0f, 1.0f, 1.0f },
+		{ -3.2f, -1.0f, 11.0f, 0.0f, 1.0f, 0.0f, 1.0f },
+		{ -2.0f,  1.0f,  2.0f, 0.0f, 1.0f, 1.0f, 1.0f },
+	};
+
+	unsigned int CubeIndices[] =
 	{
 		0, 1, 2,    // side 1
 		2, 1, 3,
@@ -46,19 +77,41 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		2, 7, 6,
 	};
 
+	unsigned int PyramidIndices[] =
+	{
+		0, 2, 1,    // base
+		1, 2, 3,
+		0, 1, 4,    // sides
+		1, 3, 4,
+		3, 2, 4,
+		2, 0, 4,
+	};
+
+	unsigned int ShipThingsIndices[] =
+	{
+		0, 1, 2,    // fuselage
+		2, 1, 3,
+		3, 1, 0,
+		0, 2, 3,
+		4, 5, 6,    // wings
+		7, 8, 9,
+		4, 6, 5,    // wings (back face)
+		7, 9, 8,
+	};
+
 	VertexBuffer vb(context);
 	BufferLayout layout;
 	layout.Push<float>("POSITION", 3);
 	layout.Push<float>("COLOR", 4);
 
-	vb.SetData(OurVertices, sizeof(VertexData) * 8);
+	vb.SetData(ShipThing, sizeof(VertexData) * 10);
 	vb.SetLayout(layout, shader);
 
 	ConstantBuffer cbuffer(context, 64);
 	cbuffer.Bind();
 
-	IndexBuffer ib(3 * 12, context);
-	ib.SetData(OurIndices);
+	IndexBuffer ib(3 * 8, context);
+	ib.SetData(ShipThingsIndices);
 
 	// Main Loop
 
@@ -85,7 +138,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		XMMATRIX world = XMMatrixRotationY(time);
 
 		// View Matrix
-		XMMATRIX view = XMMatrixLookAtLH({ 0.0f, 2.0f, 7.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
+		XMMATRIX view = XMMatrixLookAtLH({ 0.0f, 5.0f, 24.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
 
 		// Projection Matrix
 		XMMATRIX proj = XMMatrixPerspectiveFovLH(XMConvertToRadians(45.0f), (float)window.GetWidth() / (float)window.GetHeight(), 1.0f, 100.0f);
