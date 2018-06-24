@@ -7,6 +7,7 @@
 #include "Graphics/Context.h"
 #include "Graphics/Shader.h"
 #include "Graphics/Buffers/VertexBuffer.h"
+#include "Graphics/Buffers/IndexBuffer.h"
 #include "Graphics/Buffers/ConstantBuffer.h"
 
 using namespace DirectX;
@@ -19,9 +20,30 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	VertexData OurVertices[] =
 	{
-		{  0.0f,   0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f },
-		{  0.45f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f },
-		{ -0.45f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f }
+		{ -1.0f,  1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 1.0f },
+		{  1.0f,  1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 1.0f },
+		{ -1.0f, -1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 1.0f },
+		{  1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 1.0f, 1.0f },
+		{ -1.0f,  1.0f,  1.0f, 0.0f, 1.0f, 1.0f, 1.0f },
+		{  1.0f,  1.0f,  1.0f, 1.0f, 0.0f, 1.0f, 1.0f },
+		{ -1.0f, -1.0f,  1.0f, 1.0f, 1.0f, 0.0f, 1.0f },
+		{  1.0f, -1.0f,  1.0f, 1.0f, 1.0f, 1.0f, 1.0f },
+	};
+
+	unsigned int OurIndices[] =
+	{
+		0, 1, 2,    // side 1
+		2, 1, 3,
+		4, 0, 6,    // side 2
+		6, 0, 2,
+		7, 5, 6,    // side 3
+		6, 5, 4,
+		3, 1, 7,    // side 4
+		7, 1, 5,
+		4, 5, 0,    // side 5
+		0, 5, 1,
+		3, 7, 2,    // side 6
+		2, 7, 6,
 	};
 
 	VertexBuffer vb(context);
@@ -29,11 +51,14 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	layout.Push<float>("POSITION", 3);
 	layout.Push<float>("COLOR", 4);
 
-	vb.SetData(OurVertices, sizeof(VertexData) * 3);
+	vb.SetData(OurVertices, sizeof(VertexData) * 8);
 	vb.SetLayout(layout, shader);
 
 	ConstantBuffer cbuffer(context, 64);
 	cbuffer.Bind();
+
+	IndexBuffer ib(3 * 12, context);
+	ib.SetData(OurIndices);
 
 	// Main Loop
 
@@ -60,7 +85,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 		XMMATRIX world = XMMatrixRotationY(time);
 
 		// View Matrix
-		XMMATRIX view = XMMatrixLookAtLH({ 1.5f, 0.5f, 1.5f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
+		XMMATRIX view = XMMatrixLookAtLH({ 0.0f, 2.0f, 7.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f });
 
 		// Projection Matrix
 		XMMATRIX proj = XMMatrixPerspectiveFovLH(XMConvertToRadians(45.0f), (float)window.GetWidth() / (float)window.GetHeight(), 1.0f, 100.0f);
@@ -75,9 +100,10 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 		// Bind
 		vb.Bind();
+		ib.Bind();
 
 		// Draw
-		context.devcon->Draw(3, 0);
+		context.devcon->DrawIndexed(ib.GetCount(), 0, 0);
 
 
 		context.Present();

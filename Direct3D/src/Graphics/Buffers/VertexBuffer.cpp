@@ -54,8 +54,6 @@ void VertexBuffer::Bind() const
 	UINT offset = 0;
 	m_Context.devcon->IASetInputLayout(m_InputLayout);
 	m_Context.devcon->IASetVertexBuffers(0, 1, &m_BufferHandle, &stride, &offset);
-	m_Context.devcon->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
 }
 
 void VertexBuffer::Unbind() const
