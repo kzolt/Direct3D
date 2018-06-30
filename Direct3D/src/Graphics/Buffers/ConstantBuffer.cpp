@@ -17,7 +17,7 @@ ConstantBuffer::~ConstantBuffer()
 	m_BufferHandle->Release();
 }
 
-void ConstantBuffer::UpdateBuffer(const CBufferPerFrame& perFrame)
+void ConstantBuffer::UpdateBuffer(const CBuffer& perFrame)
 {
 	m_Context.devcon->UpdateSubresource(m_BufferHandle, 0, 0, &perFrame, 0, 0);
 }

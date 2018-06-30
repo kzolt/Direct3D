@@ -4,10 +4,13 @@
 #include <DirectXMath.h>
 #include "../Context.h"
 
-struct CBufferPerFrame
+struct CBuffer
 {
-	float r, g, b, a;
-	float x, y, z;
+	DirectX::XMMATRIX matrix;
+	DirectX::XMMATRIX rotation;
+	DirectX::XMVECTOR lightvec;
+	DirectX::XMVECTOR lightcol;
+	DirectX::XMVECTOR ambientcol;
 };
 
 class ConstantBuffer
@@ -25,7 +28,7 @@ public:
 	void Bind() const;
 	void Unbind() const;
 
-	void UpdateBuffer(const CBufferPerFrame& colorMod);
+	void UpdateBuffer(const CBuffer& colorMod);
 	void UpdateBuffer(const DirectX::XMMATRIX& matrix);
 
 };

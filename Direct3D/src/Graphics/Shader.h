@@ -2,6 +2,7 @@
 
 #include <d3d11.h>
 #include <d3dcompiler.h>
+#include <fstream>
 
 #include "Context.h"
 
@@ -11,6 +12,7 @@ private:
 	ID3D11VertexShader* m_VertexShaderHandle;
 	ID3D11PixelShader* m_PixelShaderHandle;
 	ID3DBlob *m_Vs, *m_Ps;
+	ID3DBlob *m_VSErr, *m_PSErr;
 
 public:
 	Shader(const Context& context);

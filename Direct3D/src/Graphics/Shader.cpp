@@ -17,8 +17,23 @@ Shader::~Shader()
 void Shader::CompileShaders()
 {
 	// Compile the shaders
-	D3DCompileFromFile(L"res/shaders/shader.shader", 0, 0, "VShader", "vs_4_0", 0, 0, &m_Vs, 0);
-	D3DCompileFromFile(L"res/shaders/shader.shader", 0, 0, "PShader", "ps_4_0", 0, 0, &m_Ps, 0);
+	HRESULT hr = D3DCompileFromFile(L"res/shaders/shader.shader", 0, 0, "VShader", "vs_4_0", 0, 0, &m_Vs, &m_VSErr);
+	if (FAILED(hr))
+	{
+		std::ofstream stream("res/errors/shader_vs_error.error", std::ofstream::out);
+		stream.write((char*)m_VSErr->GetBufferPointer(), m_VSErr->GetBufferSize());
+		m_VSErr->Release();
+		stream.close();
+	}
+
+	hr = D3DCompileFromFile(L"res/shaders/shader.shader", 0, 0, "PShader", "ps_4_0", 0, 0, &m_Ps, &m_PSErr);
+	if (FAILED(hr))
+	{
+		std::ofstream stream("res/errors/shader_ps_error.error");
+		stream.write((char*)m_PSErr->GetBufferPointer(), m_PSErr->GetBufferSize());
+		m_VSErr->Release();
+		stream.close();
+	}
 }
 
 void Shader::InitPipeline(const Context& context)

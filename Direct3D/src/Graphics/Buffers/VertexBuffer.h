@@ -8,7 +8,7 @@
 struct VertexData
 {
 	float x, y, z;
-	float r, g, b, a;
+	float n1, n2, n3;
 };
 
 class VertexBuffer
